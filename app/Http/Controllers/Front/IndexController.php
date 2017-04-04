@@ -14,19 +14,17 @@ class IndexController extends Controller
 
     public function index()
 	{
-		$data = Blog::all();
 
 		$hots = Blog::orderBy('click','desc')->limit(8)->get();
 
-		$news = Blog::orderBy('id','desc')->limit(5)->get();
+		$news = Blog::latest()->limit(5)->get();
 
-		$tags = Tag::tagsCloud();
+		$tags = Tag::inRandomOrder()->get();
 
 		$tool = new Tool;
 		$wea = $tool->weather();
 
 		return view('front.index',[
-			'blogs'=>$data,
 			'hots'=>$hots,
 			'news'=>$news,
 			'tags'=>$tags,

@@ -27,7 +27,7 @@
 				<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 hot-list">
 					<?php foreach($hots as $hot):?>
 				  	<li>
-				  		<a href="{{URL::action('Front\BlogController@show',['id'=>$hot->id])}}">
+				  		<a href="{{URL::action('Front\BlogController@show',[$hot->id,$hot->title])}}">
 							<img class="" src="{{url($hot->thumb_img)}}" />
 				  		</a>
 				  		
@@ -46,7 +46,8 @@
 	  		<div class="am-u-lg-3 ">
 	  			<div class="am-hide-md-only am-panel am-panel-default list-side">
 					<div class="am-panel-hd">
-						<h3 class="am-panel-title">今日天气</h3>
+
+						<h3 class="am-panel-title"><i class="am-icon-paw am-icon-xs"></i>&nbsp 今日天气</h3>
 					</div>
 					<main class="am-panel-bd panel-wheather">
 						<div class="am-u-sm-6">
@@ -63,22 +64,22 @@
 				</div>
 	  			<div class="am-panel am-panel-default list-side">
 					<div class="am-panel-hd">
-						<h3 class="am-panel-title">最新推荐</h3>
+						<h3 class="am-panel-title"><i class="am-icon-paw am-icon-xs"></i>&nbsp 最新推荐</h3>
 					</div>	
 				    <ul class="am-list am-list-border">
 						<?php foreach($news as $new):?>
-					  	<li><a href="{{URL::action('Front\BlogController@show',['id'=>$new->id])}}" class="am-text-truncate">{{$new->title}}</a></li>
+					  	<li><a href="{{URL::action('Front\BlogController@show',[$new->id,$new->title])}}" class="am-text-truncate">{{$new->title}}</a></li>
 						<?php endforeach;?>
 					</ul>
 				</div>
-				<div class="am-panel am-panel-default list-side">
-		          <div class="am-panel-hd">
-		            <h3 class="am-panel-title">标签云</h3>
-		          </div>
-		          <div class="am-list am-list-border tags-border">
-		            {!!$tags!!}
-		          </div> 
-		        </div>
+				
+				<!-- 标签云 require:$tags -->
+				@component('front.tagcloud')
+					@slot('tags')
+				      {!!$tags!!}  
+				    @endslot
+				@endcomponent
+
 	  		</div>
 
 		</div>

@@ -166,18 +166,26 @@ hr {
 }
 
 .blog-item-tags {
-	color:#999999;
+	color:#999;
 }
 .my-bread-panel {
 	margin-bottom: 0.6em;
 	font-size: 1.2em;
 }
 .my-bread-panel a {
-	color: #666;
+	color: #777;
 }
 .my-bread-panel .active a {
-	color: #999999;
+	color: #666;
 }
 .my-bread-panel ol{
 	margin: 0;
+}
+.my-bread-panel hr {
+	margin: 0;
+	border-top: 1px solid #eee;
+}
+
+[class*="am-icon-"] {
+	/*font-size: medium;*/
 }

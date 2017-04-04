@@ -77,29 +77,5 @@ class Tag extends Model
 	}
 
 
-    public static function tagsCloud()
-    {
-    	$tagString ='';
-		$fontStyle = array("1"=>"danger",
-				"5"=>"info",
-				"4"=>"warning",
-				"3"=>"primary",
-				"2"=>"success",
-		);
-		$fontSize = array("1"=>"",
-				"5"=>"am-text-sm",
-				"4"=>"am-text-default",
-				"3"=>"am-text-lg",
-				"2"=>"am-text-xl",
-		);
-		$tags = Tag::orderBy('frequency', 'desc')->get();
-		foreach ($tags as $tag)
-		{
-			$tagString.='<a href="'.url("blog?tag=$tag->tagname").'"><span class="am-badge am-radius am-badge-'
-					.$fontStyle[mt_rand(1,5)].' '.$fontSize[mt_rand(1,5)].'">'.$tag->tagname.'</span></a>';
-		}
-
-		return $tagString;
-    }
 
 }
