@@ -8,7 +8,8 @@ use App\Http\Models\Blog;
 use App\Http\Models\Tag;
 use App\Http\Models\Cate;
 use Illuminate\Support\Facades\Input;
-use Redirect, Auth,Image;
+use Illuminate\Support\Facades\Db;
+use Redirect,Auth,Image;
 
 class BlogController extends Controller
 {
@@ -49,31 +50,31 @@ class BlogController extends Controller
 		]);
 
 		$blog = new Blog;
-		$blog->title = Input::get('title');
-		$blog->abstract = Input::get('abstract');
-		$blog->content = Input::get('content');
-		$blog->cate_id = Input::get('cate_id');
+		$blog->title = preg_replace('/\s/','',request('title'));
+		$blog->abstract = request('abstract');
+		$blog->content = request('content');
+		$blog->cate_id = request('cate_id');
 		$blog->user_id = Auth::guard('admin')->user()->id;
-		$blog->tags = Tag::tagsUniStr(strtolower(Input::get('tags')));
-		
+		$blog->tags = is_null(request('tags'))?null:Tag::tagsUniStr(request('tags'));
 
-
-		if (Input::get('thumb_code')!==null) {
-			Image::make(Input::get('thumb_code'))->save(Input::get('thumb_src'));
-			if (file_exists($blog->thumb_img)) {
-				unlink(substr($blog->thumb_img,1));
-			}
-			$blog->thumb_img = Input::get('thumb_src');
+		if (request('thumb_code')!==null) {
+			Image::make(request('thumb_code'))->save(request('thumb_src'));
+			$blog->thumb_img = request('thumb_src');
 		}else{
 			$blog->thumb_img = 'ass_ama/img/thumb_default.jpg';
 		}
 
-		if ($blog->save()) {
-			Tag::updateTags('',$blog->tags);
-			return Redirect::to('admin/blog');
-		} else {
+		DB::beginTransaction();
+		$res1 = $blog->save();
+		$res2 = Tag::updateTags('',$blog->tags);
+		if (!$res1||!$res2) {
+			DB::rollBack();
 			return Redirect::back()->withInput()->withErrors('保存失败！');
+		}else{
+			DB::commit();
+			return Redirect::to('admin/blog');
 		}
+
 
 	}
 
@@ -102,34 +103,39 @@ class BlogController extends Controller
 			'content' => 'required',
 		]);
 
+		// 操作前核对当前版本是否一致(update时间) 
 		$blog = Blog::find($id);
-		if ($blog->updated_at!=Input::get('version')) {
+		if ($blog->updated_at!=request('version')) {
 			$errors = ['version' => '错误：更新失败。提示：您此前浏览的版本已被其他用户更新。系统已自动为您刷新版本，请查看并重试操作。' ];
 			return Redirect::back()->withErrors($errors);
 		}
 
-		$blog->title = preg_replace('/\s/','',Input::get('title'));
-		$blog->abstract = Input::get('abstract');
-		$blog->content = Input::get('content');
-		$blog->cate_id = Input::get('cate_id');
-
+		$blog->title = preg_replace('/\s/','',request('title'));
+		$blog->abstract = request('abstract');
+		$blog->content = request('content');
+		$blog->cate_id = request('cate_id');
 		$oldtags = $blog->tags;
-		$blog->tags = Tag::tagsUniStr(strtolower(Input::get('tags')));
+		$blog->tags = is_null(request('tags'))?null:Tag::tagsUniStr(request('tags'));
+		$blog->user_id = Auth::guard('admin')->user()->id;
 
-		if (Input::get('thumb_code')!==null) {
-			Image::make(Input::get('thumb_code'))->save(Input::get('thumb_src'));
+		// save & update 缩略图
+		if (request('thumb_code')!==null) {
+			Image::make(request('thumb_code'))->save(request('thumb_src'));
 			if (file_exists($blog->thumb_img)&&$blog->thumb_img!=='ass_ama/img/thumb_default.jpg') {
 				unlink($blog->thumb_img);
 			}
-			$blog->thumb_img = Input::get('thumb_src');
+			$blog->thumb_img = request('thumb_src');
 		}
 
-		$blog->user_id = Auth::guard('admin')->user()->id;
+		DB::beginTransaction();
+		$res1 = $blog->save();
+		$res2 = Tag::updateTags($oldtags,$blog->tags);
 
-		if ($blog->save()) {
-			Tag::updateTags($oldtags,$blog->tags);
+		if ($res1&&$res2) {
+			DB::commit();
 			return Redirect::to('admin/blog');
 		} else {
+			DB::rollBack();
 			return Redirect::back()->withInput()->withErrors('保存失败！');
 		}
 	}
@@ -143,13 +149,22 @@ class BlogController extends Controller
 	public function destroy($id)
 	{
 		$blog = Blog::find($id);
-		if (file_exists($blog->thumb_img)&&$blog->thumb_img !== 'ass_ama/img/thumb_default.jpg') {
-			unlink($blog->thumb_img);
-		}
-		Tag::updateTags($blog->tags,'');
-		$blog->delete();
 
-		return Redirect::to('admin/blog/');
+		DB::beginTransaction();
+		$res1 = $blog->delete();
+		$res2 = Tag::updateTags($blog->tags,'');
+
+		if ($res1&&$res2) {
+			DB::commit();
+			if (file_exists($blog->thumb_img)&&$blog->thumb_img !== 'ass_ama/img/thumb_default.jpg') {
+				unlink($blog->thumb_img);
+			}
+			return Redirect::to('admin/blog/');
+		} else {
+			DB::rollBack();
+			return false;
+		}
+
 	}
 
 	

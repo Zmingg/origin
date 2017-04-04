@@ -3,8 +3,28 @@
 
 
 @section('content')
-
+      
       <div class="am-u-lg-9">
+      
+        <div class="am-hide-sm my-bread-panel am-panel am-panel-default">
+          <div class="am-panel-bd">
+            <ol class="am-breadcrumb">
+              <li><a href="#" class="am-icon-home">首页</a></li>
+              <li><a href="{{url('blog')}}">文章</a></li>
+              <li class="am-active">列表</li>
+            </ol>
+            <ol class="am-breadcrumb am-breadcrumb-slash">
+              @foreach($cates as $acate)
+              @if($acate->alias==$cate)
+              <li class="active"><a href="{{url('blog',[$acate->alias])}}"><strong>{{$acate->name}}</strong></a></li>
+              @else
+              <li><a href="{{url('blog',[$acate->alias])}}">{{$acate->name}}</a></li>
+              @endif
+              @endforeach
+            </ol>
+          </div>
+        </div>
+        
 
         <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
         <div class="am-list-news-bd">
@@ -26,7 +46,11 @@
               
               <div class="am-list-item-text am-hide-sm-down blog-item-meta">
                 
-                  标签：<span class="blog-item-tags">{{$blog->tags}}</span>&nbsp&nbsp 阅读：<span class="blog-item-click">{{$blog->click}}</span>
+                  标签：
+                  @foreach($blog->tags() as $atag)
+                  <a href='{{url("blog?tag=$atag")}}' class="blog-item-tags">{{$atag}}</a>&nbsp
+                  @endforeach
+                  &nbsp&nbsp 阅读：<span class="blog-item-click">{{$blog->click}}</span>
               </div>
 
           </div>

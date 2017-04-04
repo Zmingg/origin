@@ -2,6 +2,7 @@
 
 namespace App\Http\Models;
 
+use App\Http\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
@@ -24,6 +25,11 @@ class Blog extends Model
 	 */
 	public function cate(){
 	    return $this->belongsTo('App\Http\Models\Cate', 'cate_id');
+	}
+
+	public function tags()
+	{
+		return Tag::tagsArr($this->tags);
 	}
 
 

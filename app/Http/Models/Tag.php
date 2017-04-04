@@ -18,16 +18,17 @@ class Tag extends Model
 		return preg_split( "/[\s,，]+/", $tags ,-1,PREG_SPLIT_NO_EMPTY );	
 	}
 
+	// 排除重复tag重新合并str 存入sql
 	public static function tagsUniStr($tags)
 	{
-		$arr = array_unique(self::tagsArr($tags));
+		$arr = array_unique(self::tagsArr(strtolower($tags)));
 		return implode( ',', $arr );
 	}
 
 	public static function addTags($tags)
 	{
 		if (empty($tags)) return;
-		var_dump($tags);
+
 		foreach ($tags as $tagname){
 			$tag = Tag::where('tagname',$tagname)->first();
 			$count = Tag::where('tagname',$tagname)->count();
@@ -68,9 +69,13 @@ class Tag extends Model
 			$newtags_arr = self::tagsArr($newtags);
 			self::addTags(array_values(array_diff($newtags_arr, $oldtags_arr)));
 			self::removeTags(array_values(array_diff($oldtags_arr, $newtags_arr)));
-
+			return true;
+		}else{
+			return true;
 		}
+
 	}
+
 
     public static function tagsCloud()
     {

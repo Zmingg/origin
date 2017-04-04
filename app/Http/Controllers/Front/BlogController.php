@@ -16,6 +16,7 @@ class BlogController extends Controller
 	public function index(Request $request,$cate=null)
 	{
 		$tags = Tag::tagsCloud();
+		$cates = Cate::all();
 
 		$blogs = $this->jpull($request,$cate);
 
@@ -24,8 +25,9 @@ class BlogController extends Controller
 		return view('front.blog.index',[
 			'blogs'=>$blogs,
 			'tags'=>$tags,
-			'cate'=>$cate,
+			'cates'=>$cates,
 			'hasmore'=>$blogs->hasMorePages(),
+			'cate'=>$cate,
 			'tag'=>request('tag'),
 			'hots'=>$hots
 		]);

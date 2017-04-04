@@ -90,9 +90,8 @@
             }, function () {
                 swal(
                     // "Deleted!", "Your imaginary file has been deleted.", "success"
-                    {title:"删除成功！",  
-                            text:"您已经成功删除了该文章。",  
-                            type:"success"},function(){window.location=t}
+                    "删除成功！","您已经成功删除了该文章。","success",
+                    function(){window.location=t}
                 );
             });
         });
