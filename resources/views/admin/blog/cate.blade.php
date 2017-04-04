@@ -1,10 +1,12 @@
 @extends('layouts.admin')
 @section('title', '文章分类')
 
-
+@section('header')
+@parent
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 
 @section('content')
-
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>文章管理</h2>
@@ -29,10 +31,11 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                
 
                 <table class="table table-striped table-bordered table-hover"  >
-                    <div id="edit-error" style="color:red;"></div>
+
+                    <div class="col-xs-4 col-xs-offset-4" id="cate-error" style="color:red"></div>
+
                     <thead>
                     <tr>
                         <th class="col-xs-4">别名(EN)</th>
@@ -47,41 +50,46 @@
                             <td class="alias">{{$cate->alias}}</td>
                             <td class="name">{{$cate->name}}</td>
                             <td>
-                                <a class="table-edit" >
+                                <a class="cate-edit">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
-                                <a class="table-save" style="display:none;">
-                                    <span class="glyphicon glyphicon-save"></span>
+                                <a class="cate-save" style="display:none;">
+                                    <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 &nbsp
-                                <a class="demo3" success="" title="">
+                                <a class="demo3 cate-trash" title="" >
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>  
+                                <a class="cate-cancel" style="display:none;">
                                     <span class="glyphicon glyphicon-remove"></span>
-                                </a>                
+                                </a>              
                             </td>
                         </tr>
-                        <?php endforeach?> 
-                        <!-- <tr class="">
-                            <form>
+                        <?php endforeach?>
+                        <tr class="" style="display:none">
+                            
                             <td class="id" style="display:none;"></td>
                             <td class="alias"><input class="form-control"></td>
-                            <td class="name"><input></td>
+                            <td class="name"><input class="form-control"></td>
                             <td>
-                                <a class="table-edit" >
+                                <a class="cate-edit" style="display:none;">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
-                                <a class="table-save" style="display:none;">
-                                    <span class="glyphicon glyphicon-save"></span>
+                                <a class="cate-save" onclick="">
+                                    <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 &nbsp
-                                <a class="demo3" success="" title="">
+                                <a class="demo3 cate-trash" success="" title=""  style="display:none;">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>  
+                                <a class="cate-cancel" success="" >
                                     <span class="glyphicon glyphicon-remove"></span>
-                                </a>                
+                                </a>
                             </td>
-                            </form>
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
-
+                <a id="newcate" class="btn btn-primary">添加分类</a>
             </div>
 
         </div>
@@ -91,55 +99,6 @@
 @endsection
 
 @section('js')
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.table-edit').click(function(){
-            var std = $(this).parent();
-            $('tbody tr').each(function(){
-                if ($(this).find('.table-save').is(':visible')) {
-                    var ttr = $(this);
-                    var id = $(this).children('.id').html();
-                    $.post('{{url("admin/blog/cate/re")}}',{id:id,_token:'{{csrf_token()}}'},
-                        function(msg) {
-                            ttr.find('.alias').html(msg.alias);
-                            ttr.find('.name').html(msg.name);
-                            ttr.find('.table-save,.table-edit').toggle();
-                        }
-                    );
-                };
-            });
-            std.siblings('.alias,.name').each(function(){
-                $(this).html("<input class='form-control input-sm' style='border:none;' value='"+$(this).html()+"''>");
-            });
-            std.children('.table-edit,.table-save').toggle();
-        });
-        $('.table-save').click(function(){
-            var std = $(this).parent();
-            var id = std.siblings('.id').html();
-            var alias = std.siblings('.alias').children().val();
-            var name = std.siblings('.name').children().val();
-            $.ajax({
-                type:'post',
-                url:'{{url("admin/blog/cate/up")}}',
-                data:{_token:'{{csrf_token()}}',id:id,alias:alias,name:name},
-                success:function(){
-                    std.siblings('.alias,.name').each(function(){
-                        $(this).html($(this).children().val());
-                    });
-                    std.children('.table-edit,.table-save').toggle();
-                    $('#edit-error').html('');
-                },
-                error:function(msg){              
-                    $.each(msg.responseJSON,function(k,v){
-                        $('#edit-error').html('Error: '+v);
-                        std.siblings('.'+k).find('input').css('background','#fbc2c4');
-                    });
-                }
-            });
+<script src="{{URL::asset('ass_back/js/blogcates.js')}}"></script>
 
-            
-        });
-    });
-
-</script>
 @endsection

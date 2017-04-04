@@ -4,15 +4,14 @@ use SimpleXMLIterator;
 
 class Tool
 {
-	private $_tool;
+	private static $_tool;
 
 	public function __construct()
 	{
-		$ip_json = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json");
-		$this->_tool['ip_arr'] = json_decode($ip_json,true);
+		self::$_tool['ip'] = $this->getip();
 	} 
 
-	public function tool()
+	public static function tool()
 	{
 		if (!(self::$_tool instanceof self)) {
 			self::$_tool = new self;
@@ -20,11 +19,33 @@ class Tool
 		return self::$_tool;
 	}
 
-	/*IP和定位信息  Array*/
-	public function position()
+
+	public function getip()
 	{
-		return $this->_tool['ip_arr'];
-	}
+		if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) {
+			$ip = getenv("HTTP_CLIENT_IP");
+		} else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) {
+			$ip = getenv("HTTP_X_FORWARDED_FOR");
+		} else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) {
+			$ip = getenv("REMOTE_ADDR");
+		} else  if (isset ($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown")) {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$ip = "unknown";
+		}
+		return $ip;
+    }
+
+    public function getcity($ip=null)
+    {
+    	if ($ip=null) {
+    		$ip = self::$_tool['ip'];
+    	}
+    	
+    	$ip_json = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=$ip");
+    	$arr = json_decode($ip_json,true);
+    	return $arr['city'];
+    }
 
 	/*天气信息  Array
 	'city':'城市',
@@ -52,7 +73,7 @@ class Tool
 	public function weather($city=null)
 	{
 		if( $city == null ){
-			$city = $this->_tool['ip_arr']['city'];
+			$city = $this->getcity();
 		}
 		$city = urlencode(mb_convert_encoding($city,'gb2312'));
 		$wea_xml = file_get_contents("http://php.weather.sina.com.cn/xml.php?city=$city&password=DJOYnieT8234jlsK&day=0");

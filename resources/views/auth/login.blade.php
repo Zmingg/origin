@@ -6,74 +6,56 @@
         <div class="am-u-md-4 am-u-md-offset-4">
             
                 
-                    <form class="am-form am-form-horizontal" role="form" method="POST" action="{{ url('login/checkPhrase') }}">
-                        {{ csrf_field() }}
+            <form class="am-form am-form-horizontal" role="form" method="POST" action="{{ url('login/checkPhrase') }}">
+                {{ csrf_field() }}
 
-                        <div class="am-form-group {{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="doc-ipt-email-1">用户名：</label>
+                <div class="am-input-group {{ $errors->has('name') ? ' has-error' : '' }}">
 
-                            <input id="doc-ipt-email-1" type="text" class="" name="name" value="{{ old('name') }}" required autofocus>
+                    <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+                    
+                    <input type="text" name="name" class="am-form-field" placeholder="Username" value="{{ old('name') }}" required>
 
-                            @if ($errors->has('name'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                            @endif
+                    
+                    
+                </div>
+
+                <div class="am-input-group {{ $errors->has('password') ? ' has-error' : '' }}">
+
+                    <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+
+                    <input type="password" class="am-form-field" placeholder="Password" name="password" required>
+                    
+                </div>
+
+                @if ($errors->has('name'))
+                    <span class="help-block" style="color:red">
+                        <strong>{{ $errors->first('name') }}</strong>
+                    </span>
+                @endif
+
+                <br>
+
+                <div class="am-form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+
+                        <span onclick="javascript:re_captcha();">
+                            <img class="am-img-responsive" src="{{ url('captcha/1') }}" style="width:100%" id="cap6699" />
+                        </span>
+                        <input id="captcha" type="text" class="form-control" name="captcha" required>
+                        @if ($errors->has('captcha'))
+                            <span class="help-block" style="color:red">
+                                <strong>{{ $errors->first('captcha') }}</strong>
+                            </span>
+                        @endif
+
+                </div>
+                    
+                    <br>
+                    <button type="submit" class="am-btn am-btn-success">登陆</button>
                             
-                        </div>
+                    <button type="button" class="am-btn am-btn-primary">注册</button>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">密码：</label>
-
-                            <div class="">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="am-form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                            <div class="am-u-md-8">
-                            <a onclick="javascript:re_captcha();">
-                                <img src="{{ url('captcha/1') }}" id="cap6699" />
-                            </a>
-                            </div>
-                            <div class="am-u-md-4">
-                            <input id="captcha" type="text" class="form-control" name="captcha" required>
-                            @if ($errors->has('captcha'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('captcha') }}</strong>
-                                </span>
-                            @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <!-- <a class="btn btn-link" href="">
-                                    Forgot Your Password?
-                                </a> -->
-                            </div>
-                        </div>
-                    </form>
+                
+            </form>
                 
             
         </div>

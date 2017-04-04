@@ -1,5 +1,5 @@
 @extends('layouts.amaze')
-@section('title', '首页')
+@section('title', '-濯而不染,清出于尘')
 
 
 @section('content')

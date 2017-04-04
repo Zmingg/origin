@@ -90,7 +90,7 @@ class Tag extends Model
 		$tags = Tag::orderBy('frequency', 'desc')->get();
 		foreach ($tags as $tag)
 		{
-			$tagString.='<a href="'.url('blog/tag='.$tag->tagname).'"><span class="am-badge am-radius am-badge-'
+			$tagString.='<a href="'.url("blog?tag=$tag->tagname").'"><span class="am-badge am-radius am-badge-'
 					.$fontStyle[mt_rand(1,5)].' '.$fontSize[mt_rand(1,5)].'">'.$tag->tagname.'</span></a>';
 		}
 

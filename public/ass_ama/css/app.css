@@ -1,6 +1,6 @@
 /* Write your styles */
 body {
-	background-image: url("http://www.tangshijun.com/zb_users/theme//txtsj/include/bg.png");
+	background-image: url("/ass_ama/img/bg.png");
 }
 p{
 	margin: 0;
@@ -67,7 +67,7 @@ hr {
 		font-size:12px;
 		font-weight:200
 	}
-	.am-list-news-default .am-list .blog-text{
+	.am-list-news-default .am-list .blog-item-text{
 		height: 4em;
 		max-height: 4em;
 		line-height: 2em;
@@ -75,7 +75,7 @@ hr {
 
 }
 @media only screen and (min-width:641px){
-	.am-list-news-default .am-list .blog-text{
+	.am-list-news-default .am-list .blog-item-text{
 		height: 6em;
 		max-height: 6em;
 		line-height: 2em;
@@ -105,15 +105,18 @@ hr {
 }
 
 
-
-.blog-meta{
+.blog-item-meta {
 	position:relative;
 	bottom: 0px;
 	margin-top: 1em;
 }
 
+.blog-more {
+	color:#999999;
+}
 
-.am-list-news-default .blog-list-title p{
+
+.am-list-news-default .blog-item-title p{
 	line-height: 1.25em;
 	font-weight:bold;
 	color: #464d51;

@@ -7,7 +7,7 @@
   <meta name="keywords" content="">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
-  <title>清尘 >> @yield('title')</title>
+  <title>清尘居 @yield('title')</title>
 
   <!-- Set render engine for 360 browser -->
   <meta name="renderer" content="webkit">
@@ -15,7 +15,9 @@
   <!-- No Baidu Siteapp-->
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+<link rel="icon" href="/favicon.ico" />
+
+  <link rel="icon" type="image/png" href="/favicon.png">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -90,6 +92,9 @@
             <div class="am-offcanvas-content">
             <ul class="am-nav my-nav-side">
                 <li class="am-nav-header"><a href="{{url('/')}}">清 尘 居</a></li>
+                <li>
+                  <a href="{{url('blog')}}">所有文章<span class="am-nav-en">all blogs</span></a>
+                </li>
                 @foreach ($cates as $cate)
                 <li>
                   <a href="{{url('/blog/'.$cate->alias)}}">{{$cate->name}}<span class="am-nav-en">{{$cate->alias}}</span></a>

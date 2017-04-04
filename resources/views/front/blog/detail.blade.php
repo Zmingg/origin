@@ -1,5 +1,5 @@
 @extends('layouts.amaze')
-@section('title', '文章')
+@section('title', "-$blog->title")
 
 
 @section('content')
