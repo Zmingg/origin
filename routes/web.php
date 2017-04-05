@@ -54,3 +54,4 @@ Route::post('login/checkPhrase', 'Auth\LoginController@checkPhrase');
 Route::get('cv', function(){
   return view('cv');
 });
+
