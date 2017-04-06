@@ -38,7 +38,7 @@ class Tool
 
     public function getcity($ip=null)
     {
-    	if ($ip=null) {
+    	if ($ip==null) {
     		$ip = self::$_tool['ip'];
     	}
     	
