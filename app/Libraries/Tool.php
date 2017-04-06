@@ -39,9 +39,11 @@ class Tool
     public function getcity($ip=null)
     {
     	if ($ip==null) {
+    		if (self::$_tool['ip']=='127.0.0.1') {
+    			return '南京';
+    		}
     		$ip = self::$_tool['ip'];
     	}
-    	
     	$ip_json = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=$ip");
     	$arr = json_decode($ip_json,true);
     	return $arr['city'];
@@ -85,13 +87,17 @@ class Tool
 		if (date('H')>17||date('H')<6) {
 			$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure2']}_1.png";
 			$weather['status'] = $wea_arr['status2'];
+			$weather['wind_d'] = $wea_arr['direction2'];
+			$weather['wind_p'] = $wea_arr['power2'];
 		}else{
 			$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure1']}_0.png";
 			$weather['status'] = $wea_arr['status1'];
+			$weather['wind_d'] = $wea_arr['direction1'];
+			$weather['wind_p'] = $wea_arr['power1'];
 		}
 		$weather['city'] = $wea_arr['city'];
 		$weather['temp'] = $wea_arr['temperature2'].' - '.$wea_arr['temperature1'];
-		$weather['pollution'] = $wea_arr['pollution_l'];
+		$weather['pollution'] = isset($wea_arr['pollution_l'])?$wea_arr['pollution_l']:$wea_arr['pollution'];
 		return $weather;
 	}
 

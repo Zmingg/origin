@@ -27,8 +27,7 @@ class Blog extends Model
 	    return $this->belongsTo('App\Http\Models\Cate', 'cate_id');
 	}
 
-	public function tags()
-	{
+	public function tags(){
 		return Tag::tagsArr($this->tags);
 	}
 

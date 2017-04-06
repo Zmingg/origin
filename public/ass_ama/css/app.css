@@ -186,6 +186,7 @@ hr {
 	border-top: 1px solid #eee;
 }
 
-[class*="am-icon-"] {
-	/*font-size: medium;*/
+
+.blog-detail-hd a{
+	color:#333;
 }
