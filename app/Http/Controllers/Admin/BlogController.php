@@ -159,7 +159,7 @@ class BlogController extends Controller
 			if (file_exists($blog->thumb_img)&&$blog->thumb_img !== 'ass_ama/img/thumb_default.jpg') {
 				unlink($blog->thumb_img);
 			}
-			return Redirect::to('admin/blog/');
+			return 'success';
 		} else {
 			DB::rollBack();
 			return false;

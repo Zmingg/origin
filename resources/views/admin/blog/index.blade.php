@@ -54,7 +54,7 @@
                             <a class="" href="/admin/blog/{{$blog->id}}/edit">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>&nbsp
-                            <a class="demo3" success="{{route('blog.del',$blog->id)}}" title="{{$blog->title}}">
+                            <a class="demo3" bid="{{$blog->id}}" title="{{$blog->title}}">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>                
                         </td>
@@ -76,25 +76,31 @@
 <script type="text/javascript">
     
     $('.demo3').click(function () {
-        var t = $(this).attr('success');
+        var id = $(this).attr('bid');
         var title = $(this).attr('title');
-            swal({
-                title: "确定删除' "+title+" '?",
-                text: "您将不能再找回这篇文章!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "是的,确认删除!",
-                cancelButtonText:"让我再考虑一下…",  
-                closeOnConfirm: false
-            }, function () {
-                swal(
-                    // "Deleted!", "Your imaginary file has been deleted.", "success"
-                    "删除成功！","您已经成功删除了该文章。","success",
-                    function(){window.location=t}
-                );
+        swal({
+            title: "确定删除' "+title+" '?",
+            text: "您将不能再找回这篇文章!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "是的,确认删除!",
+            cancelButtonText:"让我再考虑一下…",  
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                type:"post",  
+                url:"{{url('admin/blog')}}/"+id,  
+                // traditional: true,  
+                dataType:"text",  
+                data:{_token:"{{ csrf_token() }}",_method:"delete"}
+            }).done(function(data){
+                swal("操作成功!", "已成功删除数据！", "success");  
+            }).fail(function(data){
+                swal("OMG", "删除操作失败了!", "error");  
             });
         });
+    });
 </script>
 @endsection
 
