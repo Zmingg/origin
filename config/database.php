@@ -40,9 +40,15 @@ return [
         ],
 
         'mysql' => [
+            'write'=>[
+                ['host'=>'192.168.1.25','port' =>'3306',],
+            ],
+            'read'=>[
+                ['host'=>'192.168.1.88','port' =>'3306',],
+            ],
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '192.168.1.25'),
-            'port' => env('DB_PORT', '3306'),
+            // 'host' => env('DB_HOST', '192.168.1.25'),
+            // 'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'blank87'),
             'password' => env('DB_PASSWORD', 'blank1987'),
