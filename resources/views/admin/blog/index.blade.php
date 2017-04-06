@@ -95,7 +95,8 @@
                 dataType:"text",  
                 data:{_token:"{{ csrf_token() }}",_method:"delete"}
             }).done(function(data){
-                swal("操作成功!", "已成功删除数据！", "success");  
+                swal("操作成功!", "已成功删除数据！", "success"); 
+                window.location = "{{url('admin/blog')}}"; 
             }).fail(function(data){
                 swal("OMG", "删除操作失败了!", "error");  
             });

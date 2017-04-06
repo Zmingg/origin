@@ -10,7 +10,7 @@ class IndexController extends controller
 
     public function index()
 	{
-		$data = Blog::all();
+		$data = Blog::orderBy('click','desc')->take(5)->get();
 
 		return view('admin.index',[
 			'blogs'=>$data,
