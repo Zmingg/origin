@@ -51,7 +51,7 @@ Route::post('login/checkPhrase', 'Auth\LoginController@checkPhrase');
 
 
 // info
-Route::get('cv', function(){
-  return view('cv');
+Route::get('pass', function(){
+  return view('welcome');
 });
 

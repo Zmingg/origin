@@ -7,23 +7,21 @@ use App\Http\Models\Tag;
 use App\Http\Models\Cate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Cache;
-
+use Cache,Route;
 class BlogController extends Controller
 {
 	public $module = 'blog'; 
 
 	public function index(Request $request,$cate=null)
 	{
+		
 		$tags = Tag::inRandomOrder()->get();
-		$cates = Cate::all();
 		$hots = Blog::orderBy('click','desc')->take(5)->get();
 		$blogs = $this->jpull($request,$cate);
 
 		return view('front.blog.index',[
 			'blogs'=>$blogs,
 			'tags'=>$tags,
-			'cates'=>$cates,
 			'hasmore'=>$blogs->hasMorePages(),
 			'cate'=>$cate,
 			'tag'=>request('tag'),
@@ -44,11 +42,14 @@ class BlogController extends Controller
 		}
 		// cate查询结果
 		elseif ($cate) {
-			$cate_id = Cate::where('alias',$cate)->first()->id;
-			$jblogs = Blog::where('cate_id',$cate_id)
+			$jblogs = Blog::where(function($query)use($cate){
+						$cate_id = Cate::where('alias',$cate)->first()->id;
+						$query->where('cate_id',$cate_id);})
 					->select('id','title','thumb_img','abstract','tags','click')
 					->latest()
 					->paginate(4);
+
+
 		// 无参数输出all
 		}else{
 			$jblogs = Blog::select('id','title','thumb_img','abstract','tags','click')

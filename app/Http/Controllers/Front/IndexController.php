@@ -19,15 +19,12 @@ class IndexController extends Controller
 
 		$news = Blog::latest()->limit(5)->get();
 
-		$tags = Tag::inRandomOrder()->get();
-
 		$tool = new Tool;
 		$wea = $tool->weather();
 
 		return view('front.index',[
 			'hots'=>$hots,
 			'news'=>$news,
-			'tags'=>$tags,
 			'wea'=>$wea,
 			'name'=>'文章',
 		]);

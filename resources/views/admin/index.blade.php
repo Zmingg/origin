@@ -12,8 +12,6 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h4><i class="fa fa-fire"></i>&nbsp&nbsp&nbsp最热文章</h4>
-
-                
             </div>
             <div class="ibox-content no-padding">
                 <ul class="list-group">

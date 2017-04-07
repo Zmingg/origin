@@ -8,7 +8,7 @@ use App\Http\Models\Blog;
 use App\Http\Models\Tag;
 use App\Http\Models\Cate;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Db;
+use Illuminate\Support\Facades\DB;
 use Redirect,Auth,Image;
 
 class BlogController extends Controller
