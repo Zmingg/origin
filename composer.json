@@ -9,7 +9,8 @@
         "gregwar/captcha": "1.1.*",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "league/oauth2-server": "^5.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

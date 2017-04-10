@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'QcBlog',
 
     /*
     |--------------------------------------------------------------------------
@@ -52,6 +52,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    'thumb' => 'ass_ama/img/thumb_default.jpg',
 
     /*
     |--------------------------------------------------------------------------

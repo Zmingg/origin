@@ -39,7 +39,7 @@ class Tool
     public function getcity($ip=null)
     {
     	if ($ip==null) {
-    		if (self::$_tool['ip']=='127.0.0.1') {
+    		if (self::$_tool['ip']=='127.0.0.1'||preg_match('/192.168.1./', self::$_tool['ip'])) {
     			return '南京';
     		}
     		$ip = self::$_tool['ip'];

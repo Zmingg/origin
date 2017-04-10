@@ -115,7 +115,7 @@ var more = function(){
             if (msg.from==null) {
               // 此页没有数据
             }else{
-              // 最后一页隐藏控制
+              // 最后一页时隐藏提示文字
               if (msg.current_page==msg.last_page) $('#more').hide();
               // 遍历添加数据
               $.each(msg.data,function(k,v){

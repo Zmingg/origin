@@ -15,12 +15,13 @@
 Route::group(['middleware'=>'checkage','prefix' => 'admin', 'namespace' => 'Admin'], function()
 {
   Route::get('/', 'IndexController@index');
+
   Route::resource('blog', 'BlogController',['except'=>'show']);
   Route::resource('blog/cate', 'BlogCateController',['except'=>'show']);
   Route::post('blog/cate/save', 'BlogCateController@aSave');
 
   Route::get('blog/{id}/destroy', 'BlogController@destroy')->name('blog.del');
-  Route::get('image/path', 'ImageController@path');
+  Route::get('image/path', 'ImageController@path'); //缩略图预览生成
 
 });
 
@@ -55,3 +56,8 @@ Route::get('pass', function(){
   return view('welcome');
 });
 
+
+Route::get('oauth','Oauth\Api\Oauth@init');
+Route::post('oauth/code','Oauth\Api\Oauth@authCode');
+Route::get('oauth/token','Oauth\Api\Oauth@authToken');
+Route::get('oauth/login','Oauth\Api\Oauth@authLogin');

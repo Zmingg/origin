@@ -61,7 +61,7 @@ class BlogController extends Controller
 			Image::make(request('thumb_code'))->save(request('thumb_src'));
 			$blog->thumb_img = request('thumb_src');
 		}else{
-			$blog->thumb_img = 'ass_ama/img/thumb_default.jpg';
+			$blog->thumb_img = config('app.thumb');
 		}
 
 		DB::beginTransaction();
