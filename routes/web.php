@@ -45,6 +45,13 @@ Route::post('admin/logout', ['as' => 'admin.logout', 'uses' => 'Admin\AdminContr
 Route::get('login', 'Auth\LoginController@index');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+Route::get('register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('register', ['as' => 'register','uses' => 'Auth\RegisterController@register']);
+Route::get('resetpass', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('resetpass', ['as' => 'password.email','uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
+Route::get('password/reset/{token}', ['as' => 'password.reset','uses' => 'Auth\ResetPasswordController@showResetForm']);
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 // 图片验证码
 Route::get('captcha/{tmp}', 'Auth\LoginController@captcha');
@@ -55,6 +62,7 @@ Route::post('login/checkPhrase', 'Auth\LoginController@checkPhrase');
 Route::get('pass', function(){
   return view('welcome');
 });
+
 
 
 Route::get('oauth','Oauth\Api\Oauth@init');
