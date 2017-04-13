@@ -27,6 +27,8 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = '/';
 
+    public $module = 'auth'; 
+
     /**
      * Create a new controller instance.
      *
@@ -34,6 +36,7 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('guest');
     }
 }

@@ -59,7 +59,7 @@
       <li name="index"><a href="{{url('/')}}">首页</a></li>
       <li name="blog"><a href="{{url('/blog')}}">文章</a></li>
       @if (Auth::guest())
-      <li><a href="{{url('/login')}}">登陆</a></li>
+      <li name="auth"><a href="{{url('/login')}}">登陆</a></li>
       @else
       <li class="am-dropdown" data-am-dropdown>
         <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -92,15 +92,15 @@
             <div class="am-offcanvas-content">
             <ul class="am-nav my-nav-side">
                 <li class="am-nav-header"><a href="{{url('/')}}">清 尘 居</a></li>
-                <li>
+                <li name="{{ isset($cate)?'':'blog'}}">
                   <a href="{{url('blog')}}">所有文章<span class="am-nav-en">all blogs</span></a>
                 </li>
-                @foreach ($cates as $cate)
-                <li>
-                  <a href="{{url('/blog/'.$cate->alias)}}">{{$cate->name}}<span class="am-nav-en">{{$cate->alias}}</span></a>
+                @foreach ($cates as $acate)
+                <li class="{{isset($cate)&&($acate->alias==$cate)?'am-active':''}}">
+                  <a href="{{url('/blog/'.$acate->alias)}}">{{$acate->name}}<span class="am-nav-en">{{$acate->alias}}</span></a>
                 </li>
                 @endforeach
-                <li>
+                <li name="auth">
                   @if (Auth::guest())
                   <a href="{{url('/login')}}">登陆<span class="am-nav-en">Login</span></a>
                   @else

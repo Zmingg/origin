@@ -30,7 +30,7 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    public $module = 'index'; 
+    public $module = 'auth'; 
     /**
      * Create a new controller instance.
      *

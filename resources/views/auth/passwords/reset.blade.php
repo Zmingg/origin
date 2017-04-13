@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.amaze')
 
 @section('content')
 <div class="container">
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('password/reset') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('reset') }}">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="token" value="{{ $token }}">

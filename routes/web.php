@@ -49,8 +49,8 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', ['as' => 'register','uses' => 'Auth\RegisterController@register']);
 Route::get('resetpass', 'Auth\ForgotPasswordController@showLinkRequestForm');
 Route::post('resetpass', ['as' => 'password.email','uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
-Route::get('password/reset/{token}', ['as' => 'password.reset','uses' => 'Auth\ResetPasswordController@showResetForm']);
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('reset/{token}', ['as' => 'password.reset','uses' => 'Auth\ResetPasswordController@showResetForm']);
+Route::post('reset', 'Auth\ResetPasswordController@reset');
 
 
 // 图片验证码

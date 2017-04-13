@@ -25,7 +25,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public $module = 'index'; 
+    public $module = 'auth'; 
 
 
     public function index()
