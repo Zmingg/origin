@@ -18,6 +18,7 @@ class Controller extends BaseController
     public $module; // 模块 绑定前台active_on属性
     public function __construct()
     {
+
         View::share('active_on', $this->module);
         View::share('cates', Cate::all());
         View::share('tags', Tag::inRandomOrder()->get());

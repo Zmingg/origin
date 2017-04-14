@@ -51,12 +51,13 @@
 					</div>
 					<main class="am-panel-bd panel-wheather">
 						<div class="am-u-sm-6">
-							<img src="{{$wea['img']}}"><br>
+							<img class="wea_img"><br>
 						</div>
 						<div class="am-u-sm-6">
-							{{$wea['city']}} {{$wea['status']}}<br>
-							{{$wea['temp']}} ℃<br>
-							空气质量 {{$wea['pollution']}}
+							<span class="wea_city"></span> 
+							<span class="wea_s"></span><br>
+							<span class="wea_t"> ℃</span><br>
+							<span class="wea_w"> 级</span>
 						</div>
 					
 					
@@ -91,5 +92,10 @@
 @endsection
 
 @section('js')
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+<script type="text/javascript">
+	console.log(remote_ip_info);
+</script>
+<script src="{{URL::asset('ass_ama/js/sinaweather.js')}}"></script>
 
 @endsection

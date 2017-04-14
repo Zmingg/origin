@@ -15,12 +15,13 @@
 Route::group(['middleware'=>'checkage','prefix' => 'admin', 'namespace' => 'Admin'], function()
 {
   Route::get('/', 'IndexController@index');
+
   Route::resource('blog', 'BlogController',['except'=>'show']);
   Route::resource('blog/cate', 'BlogCateController',['except'=>'show']);
   Route::post('blog/cate/save', 'BlogCateController@aSave');
 
   Route::get('blog/{id}/destroy', 'BlogController@destroy')->name('blog.del');
-  Route::get('image/path', 'ImageController@path');
+  Route::get('image/path', 'ImageController@path'); //缩略图预览生成
 
 });
 
@@ -44,6 +45,13 @@ Route::post('admin/logout', ['as' => 'admin.logout', 'uses' => 'Admin\AdminContr
 Route::get('login', 'Auth\LoginController@index');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+Route::get('register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('register', ['as' => 'register','uses' => 'Auth\RegisterController@register']);
+Route::get('resetpass', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('resetpass', ['as' => 'password.email','uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail']);
+Route::get('reset/{token}', ['as' => 'password.reset','uses' => 'Auth\ResetPasswordController@showResetForm']);
+Route::post('reset', 'Auth\ResetPasswordController@reset');
+
 
 // 图片验证码
 Route::get('captcha/{tmp}', 'Auth\LoginController@captcha');
@@ -55,3 +63,9 @@ Route::get('pass', function(){
   return view('welcome');
 });
 
+
+
+Route::get('oauth','Oauth\Api\Oauth@init');
+Route::post('oauth/code','Oauth\Api\Oauth@authCode');
+Route::get('oauth/token','Oauth\Api\Oauth@authToken');
+Route::get('oauth/login','Oauth\Api\Oauth@authLogin');

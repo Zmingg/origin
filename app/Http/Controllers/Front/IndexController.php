@@ -20,12 +20,10 @@ class IndexController extends Controller
 		$news = Blog::latest()->limit(5)->get();
 
 		$tool = new Tool;
-		$wea = $tool->weather();
 
 		return view('front.index',[
 			'hots'=>$hots,
 			'news'=>$news,
-			'wea'=>$wea,
 			'name'=>'文章',
 		]);
 	}
