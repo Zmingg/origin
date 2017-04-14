@@ -36,18 +36,18 @@ class Tool
 		return $ip;
     }
 
-    public function getcity($ip=null)
-    {
-    	if ($ip==null) {
-    		if (self::$_tool['ip']=='127.0.0.1'||preg_match('/192.168.1./', self::$_tool['ip'])) {
-    			return '南京';
-    		}
-    		$ip = self::$_tool['ip'];
-    	}
-    	$ip_json = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=$ip");
-    	$arr = json_decode($ip_json,true);
-    	return $arr['city'];
-    }
+    // public function getcity($ip=null)
+    // {
+    // 	if ($ip==null) {
+    // 		if (self::$_tool['ip']=='127.0.0.1'||preg_match('/192.168.1./', self::$_tool['ip'])) {
+    // 			return '南京';
+    // 		}
+    // 		$ip = self::$_tool['ip'];
+    // 	}
+    // 	$ip_json = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=$ip");
+    // 	$arr = json_decode($ip_json,true);
+    // 	return $arr['city'];
+    // }
 
 	/*天气信息  Array
 	'city':'城市',
@@ -72,34 +72,34 @@ class Tool
 	'savedate_life':'生活数据日期',
 	'savedate_zhishu':'指数数据日期',
 	'udatetime':'数据更新时间'*/
-	public function weather($city=null)
-	{
-		if( $city == null ){
-			$city = $this->getcity();
-		}
-		$city = urlencode(mb_convert_encoding($city,'gb2312'));
-		$wea_xml = file_get_contents("http://php.weather.sina.com.cn/xml.php?city=$city&password=DJOYnieT8234jlsK&day=0");
-		if (strlen($wea_xml)<200) {
-			return '未正确定位到城市';
-		}
-		$wea_arr = $this->xmlToArr($wea_xml);
+	// public function weather($city=null)
+	// {
+	// 	if( $city == null ){
+	// 		$city = $this->getcity();
+	// 	}
+	// 	$city = urlencode(mb_convert_encoding($city,'gb2312'));
+	// 	$wea_xml = file_get_contents("http://php.weather.sina.com.cn/xml.php?city=$city&password=DJOYnieT8234jlsK&day=0");
+	// 	if (strlen($wea_xml)<200) {
+	// 		return '未正确定位到城市';
+	// 	}
+	// 	$wea_arr = $this->xmlToArr($wea_xml);
 		
-		if (date('H')>17||date('H')<6) {
-			$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure2']}_1.png";
-			$weather['status'] = $wea_arr['status2'];
-			$weather['wind_d'] = $wea_arr['direction2'];
-			$weather['wind_p'] = $wea_arr['power2'];
-		}else{
-			$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure1']}_0.png";
-			$weather['status'] = $wea_arr['status1'];
-			$weather['wind_d'] = $wea_arr['direction1'];
-			$weather['wind_p'] = $wea_arr['power1'];
-		}
-		$weather['city'] = $wea_arr['city'];
-		$weather['temp'] = $wea_arr['temperature2'].' - '.$wea_arr['temperature1'];
-		$weather['pollution'] = isset($wea_arr['pollution_l'])?$wea_arr['pollution_l']:$wea_arr['pollution'];
-		return $weather;
-	}
+	// 	if (date('H')>17||date('H')<6) {
+	// 		$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure2']}_1.png";
+	// 		$weather['status'] = $wea_arr['status2'];
+	// 		$weather['wind_d'] = $wea_arr['direction2'];
+	// 		$weather['wind_p'] = $wea_arr['power2'];
+	// 	}else{
+	// 		$weather['img'] = "http://php.weather.sina.com.cn/images/yb3/78_78/{$wea_arr['figure1']}_0.png";
+	// 		$weather['status'] = $wea_arr['status1'];
+	// 		$weather['wind_d'] = $wea_arr['direction1'];
+	// 		$weather['wind_p'] = $wea_arr['power1'];
+	// 	}
+	// 	$weather['city'] = $wea_arr['city'];
+	// 	$weather['temp'] = $wea_arr['temperature2'].' - '.$wea_arr['temperature1'];
+	// 	$weather['pollution'] = isset($wea_arr['pollution_l'])?$wea_arr['pollution_l']:$wea_arr['pollution'];
+	// 	return $weather;
+	// }
 
 	/*简单XML转Arr*/
 	private function xmlToArr($xml){
