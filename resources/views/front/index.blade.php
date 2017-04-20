@@ -20,6 +20,10 @@
 				    	<img src="{{URL::asset('ass_ama/img/bing-2.jpg')}}" />
 				    	<div class="am-slider-desc">Amaze UI ~ 中国首个开源 HTML5 跨屏前端框架</div>
 				    </li>
+				    <li>
+				    	<img src="{{URL::asset('ass_ama/img/bing-3.jpg')}}" />
+				    	<div class="am-slider-desc">VUE.JS 2.0   渐进式JavaScript 框架</div>
+				    </li>
 				  </ul>
 				</div>
 				
@@ -92,10 +96,7 @@
 @endsection
 
 @section('js')
-<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
-<script type="text/javascript">
-	console.log(remote_ip_info);
-</script>
+
 <script src="{{URL::asset('ass_ama/js/sinaweather.js')}}"></script>
 
 @endsection

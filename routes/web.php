@@ -64,8 +64,9 @@ Route::get('pass', function(){
 });
 
 
-
-Route::get('oauth','Oauth\Api\Oauth@init');
-Route::post('oauth/code','Oauth\Api\Oauth@authCode');
-Route::get('oauth/token','Oauth\Api\Oauth@authToken');
-Route::get('oauth/login','Oauth\Api\Oauth@authLogin');
+// API
+Route::get('api/blogs', 'Api\IndexApi@all');
+Route::get('api/cates', 'Api\IndexApi@cates');
+Route::get('api/hots', 'Api\IndexApi@hots');
+Route::get('api/news', 'Api\IndexApi@news');
+Route::get('api/tags', 'Api\IndexApi@tags');

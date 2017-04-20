@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Blog;
 use App\Http\Models\Tag;
-use App\Libraries\Tool;
 
 class IndexController extends Controller
 {
@@ -19,7 +18,6 @@ class IndexController extends Controller
 
 		$news = Blog::latest()->limit(5)->get();
 
-		$tool = new Tool;
 
 		return view('front.index',[
 			'hots'=>$hots,

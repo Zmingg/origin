@@ -15,13 +15,11 @@ class BlogController extends Controller
 	public function index(Request $request,$cate=null)
 	{
 		
-		$tags = Tag::inRandomOrder()->get();
 		$hots = Blog::orderBy('click','desc')->take(5)->get();
 		$blogs = $this->jpull($request,$cate);
 
 		return view('front.blog.index',[
 			'blogs'=>$blogs,
-			'tags'=>$tags,
 			'hasmore'=>$blogs->hasMorePages(),
 			'cate'=>$cate,
 			'tag'=>request('tag'),
