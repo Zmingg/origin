@@ -6,69 +6,85 @@ use App\Http\Controllers\Controller;
 use App\Http\Models\Blog;
 use App\Http\Models\Tag;
 use App\Http\Models\Cate;
+use App\Http\Models\User;
 use Illuminate\Http\Request;
 
 class IndexApi extends Controller
 {
+	private $response; 
+	private $callback;
+
+	public function __construct()
+	{
+		$this->callback = request('api');
+	}
 
 	public function all(Request $request)
 	{
-		$callback = request('api');
-
-
-		$blogs = Blog::select('id','abstract','tags','click','title','thumb_img')->latest()->take(request('count'))->get();
+		if (request('cate')) {
+			$cateid = Cate::where('alias',request('cate'))->first()->id;
+			$blogs = Blog::select('id','abstract','tags','click','title','thumb_img')
+				->where('cate_id',$cateid)
+				->latest()
+				->paginate(request('count'));
+		}elseif (request('tag')) {
+			$blogs = Blog::where('tags','like','%'.request('tag').'%')
+					->select('id','title','thumb_img','abstract','tags','click')
+					->latest()
+					->paginate(request('count'));
+		}else{
+			$blogs = Blog::select('id','abstract','tags','click','title','thumb_img')
+				->orderBy('click','desc')
+				->paginate(request('count'));
+		}
 
 		foreach ($blogs as $blog) {
 			$blog->tagsarr = Tag::tagsarr($blog->tags);
 		}
-
-		echo $callback.'('.json_encode($blogs).')';
-
-		
+		$this->response = $blogs;
+		$this->callback();
 	}
 
 
     public function hots(Request $request)
 	{
-		$callback = request('api');
-
-		$hots = Blog::select('id','title','thumb_img')->orderBy('click','desc')->take(request('count'))->get();
-
-		echo $callback.'('.json_encode($hots).')';
-
-		
+		$this->response = Blog::select('id','title','thumb_img')->orderBy('click','desc')->take(request('count'))->get();
+		$this->callback();		
 	}
 
 	public function news(Request $request)
 	{
-		$callback = request('api');
-
-		$news = Blog::select('id','title')->latest()->take(request('count'))->get();
-
-		header('Content-Type: application/json');
-
-		echo $callback.'('.json_encode($news).')';
-		
+		$this->response = Blog::select('id','title')->latest()->take(request('count'))->get();
+		$this->callback();	
 	}
 
 	public function tags(Request $request)
 	{
-		$callback = request('api');
-
-		$tags = Tag::select('tagname')->inRandomOrder()->take(request('count'))->get();
-
-		echo $callback.'('.json_encode($tags).')';
-
-		
+		$this->response = Tag::select('tagname')->inRandomOrder()->take(request('count'))->get();
+		$this->callback();	
 	}
 
 	public function cates(Request $request)
 	{
-		$callback = request('api');
+		$this->response = Cate::all();
+		$this->callback();
+	}
 
-		$cates = Cate::all();
+	public function blogshow(Request $request)
+	{
+		$blog = Blog::find(request('id'));
 
-		echo $callback.'('.json_encode($cates).')';
+		$blog->content = preg_replace('/\/upload\/image\/\d+\/\d+\.\w{3}/','http://zmhjy.xyz${0}',$blog->content);
+		$blog->user = User::where('id',$blog->user_id)->select('nickname','email')->first();
+		$blog->tagsarr = Tag::tagsarr($blog->tags);
+		$blog->cate = Cate::where('id',$blog->cate_id)->select('name','alias')->first();
+		$this->response = $blog;
+		$this->callback();
+	}
+
+	public function callback()
+	{
+		echo $this->callback.'('.json_encode($this->response).')';
 	}
 
 

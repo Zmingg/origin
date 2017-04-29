@@ -18,21 +18,21 @@ $(document).ready(function(){
 			var now = new Date();
 
 			if (now.getHours()>17||now.getHours()<6) {
-				wea.s = wea.s2;
-				wea.d = wea.d2;
-				wea.p = wea.p2;
-				wea.img = 'http://php.weather.sina.com.cn/images/yb3/78_78/'+wea.f2+'_1.png';
+				wea.s = wea.s2?wea.s2:wea.s1;
+				wea.d = wea.d2?wea.d2:wea.d1;
+				wea.p = wea.p2?wea.p2:wea.p1;
+				wea.img = 'http://php.weather.sina.com.cn/images/yb3/78_78/'+(wea.f2?wea.f2:wea.f1)+'_1.png';
 			}else{
-				wea.s = wea.s1;
-				wea.d = wea.d1;
-				wea.p = wea.p1;
-				wea.img = 'http://php.weather.sina.com.cn/images/yb3/78_78/'+wea.f1+'_0.png';
+				wea.s = wea.s1?wea.s1:wea.s2;
+				wea.d = wea.d1?wea.d1:wea.d2;
+				wea.p = wea.p1?wea.p1:wea.p2;
+				wea.img = 'http://php.weather.sina.com.cn/images/yb3/78_78/'+(wea.f1?wea.f1:wea.f2)+'_0.png';
 			}
 
 			$('.wea_city').html(wea.city);
 			$('.wea_s').html(wea.s);
 			$('.wea_t').html(function(){
-				return wea.t2+' ~ '+wea.t1+$('.wea_t').html();
+				return wea.t2+' ~ '+(wea.t1?wea.t1:'27')+$('.wea_t').html();
 			});
 			$('.wea_w').html(function(){
 				return wea.d+' '+wea.p+$(this).html();

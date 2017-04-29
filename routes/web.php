@@ -70,3 +70,4 @@ Route::get('api/cates', 'Api\IndexApi@cates');
 Route::get('api/hots', 'Api\IndexApi@hots');
 Route::get('api/news', 'Api\IndexApi@news');
 Route::get('api/tags', 'Api\IndexApi@tags');
+Route::get('api/blogshow', 'Api\IndexApi@blogshow');
