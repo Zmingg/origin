@@ -73,13 +73,15 @@ class IndexApi extends Controller
 	public function blogshow(Request $request)
 	{
 		$blog = Blog::find(request('id'));
-
+$blog->click++;
+$blog->save();
 		$blog->content = preg_replace('/\/upload\/image\/\d+\/\d+\.\w{3}/','http://zmhjy.xyz${0}',$blog->content);
 		$blog->user = User::where('id',$blog->user_id)->select('nickname','email')->first();
 		$blog->tagsarr = Tag::tagsarr($blog->tags);
 		$blog->cate = Cate::where('id',$blog->cate_id)->select('name','alias')->first();
 		$this->response = $blog;
 		$this->callback();
+
 	}
 
 	public function callback()
