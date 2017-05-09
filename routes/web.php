@@ -14,7 +14,7 @@
 // 后台 admin
 Route::group(['middleware'=>'checkage','prefix' => 'admin', 'namespace' => 'Admin'], function()
 {
-  // Route::get('/', 'IndexController@index');
+  Route::get('/', 'IndexController@index');
 
   Route::resource('blog', 'BlogController',['except'=>'show']);
   Route::resource('blog/cate', 'BlogCateController',['except'=>'show']);

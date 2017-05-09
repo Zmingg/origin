@@ -34,16 +34,20 @@
         <ul class="am-list">
 
         <?php foreach($blogs as $blog):?>
-         <li class="am-g am-list-item-thumbed blog-item" onclick=location.href="{{url('blog',[$blog->id,$blog->title])}}">
-          <div class="am-u-sm-5 am-u-md-4 am-u-lg-4 am-item-thumb">
+         <li class="blog-item" onclick=location.href="{{url('blog',[$blog->id,$blog->title])}}">
+          <div class="am-u-sm-5 am-u-md-4 am-u-lg-4 blog-item-thumb" style="">
             <a href="{{url('blog',[$blog->id,$blog->title])}}" class="">
               <img src="{{url($blog->thumb_img)}}" alt="{{$blog->title}}"/></a>
           </div>
 
-          <div class=" am-u-sm-7 am-u-md-8 am-u-lg-8 am-list-main">
+          <div class=" blog-item-main am-u-sm-7 am-u-md-8 am-u-lg-8" style="">
+            <div>
               <h2 class="am-list-item-hd blog-item-title">
-                <a href="{{url('blog',[$blog->id,$blog->title])}}"><p class="am-text-truncate">{{$blog->title}}</p></a>
-              </h2>
+                  <a href="{{url('blog',[$blog->id,$blog->title])}}"><p class="am-text-truncate">{{$blog->title}}</p></a>
+                </h2>
+
+            </div>
+              
               
               <div class="am-list-item-text blog-item-text">{{$blog->abstract}}</div>
               
