@@ -9,8 +9,7 @@
 
 			<div class="am-u-lg-9 ">
 				<div class="am-slider am-slider-c1" data-am-flexslider="
-				{directionNav:false,playAfterPaused:1000,slideshowSpeed:4000,}
-				"data-am-widget="slider" >
+				{directionNav:false,playAfterPaused:1000,slideshowSpeed:4000,}" data-am-widget="slider">
 				  <ul class="am-slides">
 				    <li>
 				    	<img src="{{URL::asset('ass_ama/img/bing-1.jpg')}}" />

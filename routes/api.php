@@ -16,3 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->get('/tokens', function (Request $request) {
+    return $request->user();
+});
+Route::group(['middleware' => 'auth:api'], function () {
+    // Route::get('captcha', 'Api\VueApi@deleteToken');
+});
+Route::post('registerCode', 'Api\VueApi@registerCode');
+Route::post('codeCheck', 'Api\VueApi@codeCheck');
+Route::post('signup', 'Api\VueApi@register');
+Route::get('captcha', 'Api\VueApi@captcha');
+Route::get('hashCheck', 'Api\VueApi@hashCheck');

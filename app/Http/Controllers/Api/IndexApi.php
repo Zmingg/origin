@@ -16,6 +16,12 @@ class IndexApi extends Controller
 
 	public function __construct()
 	{
+		// 指定允许其他域名访问  
+		header('Access-Control-Allow-Origin:*');  
+		// 响应类型  
+		header('Access-Control-Allow-Methods:GET');  
+		// 响应头设置  
+		header('Access-Control-Allow-Headers:x-requested-with,content-type');  
 		$this->callback = request('api');
 	}
 
@@ -52,6 +58,11 @@ class IndexApi extends Controller
 		$this->callback();		
 	}
 
+	public function hots2(Request $request)
+	{
+		return Blog::select('id','title','thumb_img')->orderBy('click','desc')->take(request('count'))->get();	
+	}
+
 	public function news(Request $request)
 	{
 		$this->response = Blog::select('id','title')->latest()->take(request('count'))->get();
@@ -73,12 +84,14 @@ class IndexApi extends Controller
 	public function blogshow(Request $request)
 	{
 		$blog = Blog::find(request('id'));
-$blog->click++;
-$blog->save();
+		$blog->click++;
+		$blog->save();
 		$blog->content = preg_replace('/\/upload\/image\/\d+\/\d+\.\w{3}/','http://zmhjy.xyz${0}',$blog->content);
 		$blog->user = User::where('id',$blog->user_id)->select('nickname','email')->first();
 		$blog->tagsarr = Tag::tagsarr($blog->tags);
 		$blog->cate = Cate::where('id',$blog->cate_id)->select('name','alias')->first();
+		$blog->prev = Blog::select('id','title')->where('id','<',$blog->id)->orderBy('id','desc')->first();
+		$blog->next = Blog::select('id','title')->where('id','>',$blog->id)->orderBy('id','asc')->first();
 		$this->response = $blog;
 		$this->callback();
 
