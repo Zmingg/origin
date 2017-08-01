@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session, Captcha, Mail, DB, Hash;
 use App\Http\Models\User;
+use App\Http\Models\Cate;
 
 class VueApi extends Controller
 {
@@ -134,6 +135,12 @@ class VueApi extends Controller
       }else{
         return response()->json(['ok'=>false,'message'=>'注册失败']);
       }
+    }
+
+    public function cates(Request $request)
+    {
+      $cates = Cate::all();
+      return response()->json($cates);
     }
 
 

@@ -66,7 +66,7 @@ Route::get('pass', function(){
 
 // API
 Route::get('api/blogs', 'Api\IndexApi@all');
-Route::get('api/cates', 'Api\IndexApi@cates');
+// Route::get('api/cates', 'Api\IndexApi@cates');
 Route::get('api/hots', 'Api\IndexApi@hots');
 Route::get('api/news', 'Api\IndexApi@news');
 Route::get('api/tags', 'Api\IndexApi@tags');

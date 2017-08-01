@@ -1,2 +1,3 @@
-.svn
+.gitignore
+*.DS_Store
 vendor/
