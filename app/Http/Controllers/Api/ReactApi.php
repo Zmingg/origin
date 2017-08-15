@@ -59,5 +59,39 @@ class ReactApi extends Controller {
 		return $blog;
 	}
 
+	public function searchBlog(Request $request)
+	{
+	    $text = $request->text;
+	    $blogs = Blog::where('tags','like','%'.$text.'%')
+	        ->orWhere('tags','like','%'.$text.'%')
+            ->select('id','title','thumb_img','abstract','tags','click')
+            ->orderBy('click','desc')
+            ->paginate(request('count'));
+        foreach ($blogs as $blog) {
+            $blog->tagsarr = Tag::tagsarr($blog->tags);
+        }
+        return $blogs;
+	}
+
+	public function saveUserPic(Request $request)
+	{
+		$img = $_FILES['image'];
+
+		$path = '/upload/userpic/';
+        $dir = public_path().$path;
+		//file_exists($path) || (mkdir($path,0777,true) && chmod($path,0777));
+		if(!is_array($img["name"])) //single file
+		{
+			$fileName = time().uniqid().'.'.pathinfo($img["name"])['extension'];
+			move_uploaded_file($img["tmp_name"],$dir.$fileName);
+			$res['file'] = $path.$fileName;
+		}
+		$user = User::find($request->user);
+		$user->pic = $res['file'];
+		$user->save();
+        return $res;
+
+	}
+
 
 }
