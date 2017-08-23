@@ -21,6 +21,6 @@ class Controller extends BaseController
 
         View::share('active_on', $this->module);
         View::share('cates', Cate::all());
-        View::share('tags', Tag::inRandomOrder()->get());
+        View::share('tags', Tag::inRandomOrder()->take(15)->get());
     }
 }
