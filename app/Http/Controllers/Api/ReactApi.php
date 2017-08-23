@@ -78,7 +78,7 @@ class ReactApi extends Controller {
 		$img = $_FILES['image'];
 
 		$path = '/upload/userpic/';
-        $dir = public_path().$path;
+                $dir = public_path().$path;
 		//file_exists($path) || (mkdir($path,0777,true) && chmod($path,0777));
 		if(!is_array($img["name"])) //single file
 		{
@@ -86,7 +86,7 @@ class ReactApi extends Controller {
 			move_uploaded_file($img["tmp_name"],$dir.$fileName);
 			$res['file'] = $path.$fileName;
 		}
-		$user = User::find($request->user);
+                $user = User::find($request->user);
 		$user->pic = $res['file'];
 		$user->save();
         return $res;

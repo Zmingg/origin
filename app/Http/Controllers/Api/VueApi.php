@@ -137,12 +137,6 @@ class VueApi extends Controller
       }
     }
 
-    public function cates(Request $request)
-    {
-      $cates = Cate::all();
-      return response()->json($cates);
-    }
-
 
 
 }

@@ -9,8 +9,6 @@
     <title>清尘 >> 登陆</title>
 
     <link href="{{URL::asset('ass_back/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('ass_back/Angular/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-
     <link href="{{URL::asset('ass_back/css/animate.css')}}" rel="stylesheet">
     <link href="{{URL::asset('ass_back/css/style.css')}}" rel="stylesheet">
 

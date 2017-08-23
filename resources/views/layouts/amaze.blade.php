@@ -27,15 +27,15 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <link rel="apple-touch-icon-precomposed" href="{{URL::asset('assets/i/app-icon72x72@2x.png')}}">
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="{{URL::asset('assets/i/app-icon72x72@2x.png')}}">
   <meta name="msapplication-TileColor" content="#0e90d2">
   
 @section('style')
-    <link rel="stylesheet" href="{{URL::asset('ass_ama/css/amazeui.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('ass_ama/css/app.css')}}">
+    <!-- <link rel="stylesheet" href="{{URL::asset('assets/css/amazeui.css')}}"> -->
+    <link rel="stylesheet" href="{{URL::asset('assets/css/app.css')}}">
 @show 
 <style type="text/css">
 @media only screen and (min-width:641px){
@@ -162,9 +162,7 @@
   <br>
 </div>
 
-
-<script src="{{URL::asset('ass_ama/js/jquery.min.js')}}"></script>
-<script src="{{URL::asset('ass_ama/js/amazeui.min.js')}}"></script>
+<script src="{{URL::asset('assets/js/app.js')}}"></script>
 <script type="text/javascript">
     var ali = $('li[name={{$active_on}}]');
     ali.addClass('am-active');
