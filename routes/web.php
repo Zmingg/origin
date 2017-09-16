@@ -86,5 +86,8 @@ Route::get('app2/show/{id}', function(){
 });
 
 // QC Music
-Route::get('mapi/sheet', 'Api\MusicApi@getSheet');
-Route::post('mapi/audio', 'Api\MusicApi@getAudioData');
+Route::get('mapi/list/{lid}', 'Api\MusicApi@getList');
+Route::post('mapi/audio', 'Api\MusicApi@getAudio');
+Route::get('mapi/disc/{sid}', 'Api\MusicApi@getDisc');
+
+
