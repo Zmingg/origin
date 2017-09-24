@@ -89,5 +89,6 @@ Route::get('app2/show/{id}', function(){
 Route::get('mapi/list/{lid}', 'Api\MusicApi@getList');
 Route::post('mapi/audio', 'Api\MusicApi@getAudio');
 Route::get('mapi/disc/{sid}', 'Api\MusicApi@getDisc');
-
-
+Route::get('music/player', function(){
+  return redirect('/music');
+});

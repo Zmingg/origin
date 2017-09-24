@@ -31,11 +31,15 @@ class MusicApi extends Controller{
         $audio = Audio::find($aid);
         $audio->disc = $audio->disc;
         
-        // 生成audio_url
+        // 生成 audio_url
         $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/audio/'.$audio->src;
-        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,36000);
-        $audio->expire = time()+36000;
+        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
+        $audio->expire = time()+3600;
         $audio->src = $trueUrl;
+        // 生成 lyric_url
+        $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/lyric/'.$audio->lyric;
+        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
+        $audio->lyric = $trueUrl;
         unset($audio->sid);
         return $audio;
     }
@@ -52,8 +56,8 @@ class MusicApi extends Controller{
         
         // 生成discImg_url
         $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/image/'.$disc->img;
-        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,36000);
-        $disc->expire = time()+36000;
+        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
+        $disc->expire = time()+3600;
         $disc->img = $trueUrl;
         return $disc;
     }
