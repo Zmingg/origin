@@ -17,5 +17,7 @@ class Audio extends Model
         return $this->belongsTo('App\Http\Models\Music\Disc', 'sid');
     }
 
+    
+
 
 }

@@ -11,4 +11,10 @@ class Disc extends Model
     public $primaryKey = 'sid';
     
     public $timestamps = false;
+
+    public function getImgAttribute($value)
+    {
+        return 'http://oxjyut4f0.bkt.clouddn.com/image/'.$value;
+    }
+    
 }

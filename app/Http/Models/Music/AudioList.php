@@ -26,4 +26,9 @@ class AudioList extends Model
         }
         return $audios;
     }
+
+    public function getImgAttribute($value)
+    {
+        return 'http://oxjyut4f0.bkt.clouddn.com/image/'.$value;
+    }
 }

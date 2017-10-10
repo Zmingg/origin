@@ -21,7 +21,7 @@ class MusicApi extends Controller{
     public $secretKey = 'dASmCaR0St7vIcCikzdPqo25_f3vtlfgR7tCVKQQ';
     
     public function __construct(){
-        header('Access-Control-Allow-Origin:*');  
+        // header('Access-Control-Allow-Origin:*');  
         // 初始化签权对象
         $this->auth = new Auth($this->accessKey, $this->secretKey);
     }
@@ -30,36 +30,35 @@ class MusicApi extends Controller{
         $aid = $request->aid;
         $audio = Audio::find($aid);
         $audio->disc = $audio->disc;
-        
+        unset($audio->sid);
+
+        $audio->expire = $request->expire;
         // 生成 audio_url
         $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/audio/'.$audio->src;
-        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
-        $audio->expire = time()+3600;
-        $audio->src = $trueUrl;
+        $audio->src = $this->auth->privateDownloadUrl($baseUrl,$audio->expire-time());  
         // 生成 lyric_url
-        $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/lyric/'.$audio->lyric;
-        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
-        $audio->lyric = $trueUrl;
-        unset($audio->sid);
+        if($audio->lyric!==''){
+            $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/lyric/'.$audio->lyric;
+            $audio->lyric = $this->auth->privateDownloadUrl($baseUrl,$audio->expire-time());
+        }
         return $audio;
     }
 
     public function getList($lid){
-        $data = AudioList::find($lid);
-        $data->audios = $data->audios();
-        unset($data->aids);
-        return $data;
+        $list = AudioList::find($lid);
+        $list->audios = $list->audios();
+        unset($list->aids);
+        return $list;
     }
 
     public function getDisc($sid){
-        $disc = Disc::find($sid);
-        
-        // 生成discImg_url
-        $baseUrl = 'http://ow7kqez1l.bkt.clouddn.com/image/'.$disc->img;
-        $trueUrl = $this->auth->privateDownloadUrl($baseUrl,3600);
-        $disc->expire = time()+3600;
-        $disc->img = $trueUrl;
+        $disc = Disc::find($sid); 
         return $disc;
+    }
+
+    public function getAllList(){
+        $lists = AudioList::all();
+        return $lists;
     }
 
 
