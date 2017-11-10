@@ -89,7 +89,11 @@ Route::get('app2/show/{id}', function(){
 Route::get('mapi/lists', 'Api\MusicApi@getAllList');
 Route::get('mapi/list/{lid}', 'Api\MusicApi@getList');
 Route::post('mapi/audio', 'Api\MusicApi@getAudio');
-
+Route::get('mapi/keys', 'Api\MusicApi@getHotKeys');
+Route::get('mapi/search/{key}', 'Api\MusicApi@search');
 Route::get('music/player', function(){
   return redirect('/music');
 });
+
+// MusicManage
+Route::get('mapi/detail/{name}', 'Api\MusicApi@getDetail');

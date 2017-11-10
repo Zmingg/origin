@@ -21,6 +21,7 @@ class AudioList extends Model
         $audios = [];
         foreach ($aidArr as $aid) {
             $audio = Audio::find($aid);
+            $audio->singer = $audio->singer();
             $audio->disc = $audio->disc;
             $audios[] = $audio;
         }

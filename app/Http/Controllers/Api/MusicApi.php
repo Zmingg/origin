@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Models\Music\Audio;
 use App\Http\Models\Music\AudioList;
 use App\Http\Models\Music\Disc;
+use App\Http\Models\Music\Singer;
 use App\Http\Models\Blog;
 use Illuminate\Http\Request;
 use Qiniu\Auth;
@@ -29,6 +30,7 @@ class MusicApi extends Controller{
     public function getAudio(Request $request){
         $aid = $request->aid;
         $audio = Audio::find($aid);
+        $audio->singer = $audio->singer();
         $audio->disc = $audio->disc;
         unset($audio->sid);
 
@@ -59,6 +61,95 @@ class MusicApi extends Controller{
     public function getAllList(){
         $lists = AudioList::all();
         return $lists;
+    }
+
+    public function getAudios(){
+        $audios = Audio::all();
+        return $audios;
+    }
+
+    public function getDetail($name){
+        $lists = AudioList::all();
+        return $lists;
+    }
+
+    public function getHotKeys(){
+        $res = [];
+        $audios = Audio::orderBy('count', 'desc')
+               ->take(3)
+               ->get();
+        foreach ($audios as $audio) {
+            $res[] = $audio->title;
+        }
+        $discs = Disc::inRandomOrder()
+               ->take(3)
+               ->get();
+        foreach ($discs as $disc) {
+            $res[] = $disc->title;
+        }
+        $singers = Singer::inRandomOrder()
+               ->take(3)
+               ->get();
+        foreach ($singers as $singer) {
+            $res[] = $singer->name;
+        }
+        $res = array_unique($res);
+        array_splice($res,array_search('群星',$res),1);
+        return $res;
+    }
+
+    public function search($key){
+        $res = [];
+        $disc = $this->searchDisc($key);
+        $singer = $this->searchSinger($key);
+        if (isset($disc)) {
+            array_push($res, $disc);
+        }
+        if (isset($singer)) {
+            array_push($res, $singer);
+            $temp = $singer->audios;
+            foreach ($temp as $audio) {
+                $audio->disc = $audio->disc;
+                $audio->singer = $audio->singer();
+                $audio->type = 'audio';
+                $audios[] = $audio;
+            }
+        } else {
+            $audios = $this->searchAudios($key);
+        }
+        if (empty($res)) {
+            return $audios;
+        }
+        return array_merge($res,$audios);
+    }
+
+    public function searchDisc($key){
+        $discs = Disc::with('singer')->where('title','like','%'.$key.'%')->inRandomOrder()->take(1)->get();
+        if (count($discs)) {
+            $disc = $discs[0];
+            $disc->type = 'disc';
+            return $disc;
+        }
+    }
+
+    public function searchSinger($key){
+        $singers = Singer::withCount('discs')->withCount('audios')->where('name','like','%'.$key.'%')->inRandomOrder()->take(1)->get();
+        if (count($singers)) {
+            $singer = $singers[0];
+            $singer->type = 'singer';
+            return $singer;  
+        } 
+    }
+
+    public function searchAudios($key){
+        $res = [];
+        foreach (Audio::where('title','like','%'.$key.'%')->cursor() as $audio) {
+            $audio->disc = $audio->disc;
+            $audio->singer = $audio->singer();
+            $audio->type = 'audio';
+            $res[] = $audio;
+        }
+        return $res;
     }
 
 
