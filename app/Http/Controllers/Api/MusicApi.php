@@ -68,11 +68,6 @@ class MusicApi extends Controller{
         return $audios;
     }
 
-    public function getDetail($name){
-        $lists = AudioList::all();
-        return $lists;
-    }
-
     public function getHotKeys(){
         $res = [];
         $audios = Audio::orderBy('count', 'desc')
